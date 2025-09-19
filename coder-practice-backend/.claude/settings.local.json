@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.claude.com)",
+      "Read(//c/Users/Administrator/.claude/**)",
+      "Bash(bash:*)",
+      "Bash(powershell:*)",
+      "Bash(env:*)",
+      "Bash(ccusage:*)",
+      "Bash(tree:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

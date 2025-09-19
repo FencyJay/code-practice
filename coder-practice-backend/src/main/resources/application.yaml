@@ -2,8 +2,8 @@ spring:
   application:
     name: coder-practice-backend
   datasource:
-    driver-class-name: # <todo> ???
-    # <todo> url ?????
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/coder_practice?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
 
@@ -15,12 +15,16 @@ server:
 
 mybatis-plus:
   configuration:
-    # MyBatis ??
+    # MyBatis 配置
     map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
-      # ????
+      # 逻辑删除配置
       logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath:mapper/*.xml
 
 # springdoc-openapi????
 springdoc:
