@@ -10,13 +10,13 @@ import com.codebear.coderpracticebackend.model.entity.UserLevel;
 import com.codebear.coderpracticebackend.model.entity.Level;
 import com.codebear.coderpracticebackend.model.entity.User;
 import com.codebear.coderpracticebackend.model.dto.user.UserSubmitAnswerRequest;
-import com.codebear.coderpracticebackend.model.dto.level.LevelOption;
+import com.codebear.coderpracticebackend.service.ai.dto.LevelOption;
 import com.codebear.coderpracticebackend.service.UserLevelService;
 import com.codebear.coderpracticebackend.service.LevelService;
 import com.codebear.coderpracticebackend.service.UserService;
 import com.codebear.coderpracticebackend.service.ai.ResultReportService;
-import com.codebear.coderpracticebackend.service.ai.dto.ResultReportRequest;
 import com.codebear.coderpracticebackend.service.ai.dto.ResultReportResponse;
+import com.codebear.coderpracticebackend.service.ai.dto.ReportOption;
 import com.codebear.coderpracticebackend.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,11 +66,31 @@ public class UserLevelServiceImpl extends ServiceImpl<UserLevelMapper, UserLevel
             Level level = levelService.getLevelById(submitRequest.getLevelId());
             User user = userService.getById(userId);
 
-            // 构建AI评分请求
-            ResultReportRequest request = buildResultReportRequest(level, user, submitRequest);
+            // 准备AI服务调用参数
+            List<ReportOption> userOptions = submitRequest.getSelectedOptions().stream()
+                    .map(optionName -> {
+                        ReportOption optionDto = new ReportOption();
+                        optionDto.setOptionName(optionName);
+                        optionDto.setTrueAnswer(true); // 默认设置为true，实际应该根据正确答案判断
+                        return optionDto;
+                    })
+                    .toList();
+
+            // 获取正确选项列表
+            List<String> trueOptions = JsonUtils.fromJson(level.getOptions(), new TypeReference<List<LevelOption>>() {})
+                    .stream()
+                    .filter(LevelOption::getTrueAnswer)
+                    .map(LevelOption::getOptionName)
+                    .toList();
 
             // 调用AI服务生成结果报告
-            ResultReportResponse response = resultReportService.generateReport(request);
+            ResultReportResponse response = resultReportService.generateReport(
+                    level.getLevelName(),
+                    level.getLevelDesc(),
+                    userOptions,
+                    trueOptions,
+                    user.getSalary()
+            );
 
             // 保存用户答题记录
             UserLevel userLevel = saveUserLevelRecord(userId, submitRequest, response);
@@ -88,36 +108,7 @@ public class UserLevelServiceImpl extends ServiceImpl<UserLevelMapper, UserLevel
         }
     }
 
-    /**
-     * 构建AI评分请求
-     */
-    private ResultReportRequest buildResultReportRequest(Level level, User user, UserSubmitAnswerRequest submitRequest) {
-        ResultReportRequest request = new ResultReportRequest();
-        request.setLevelName(level.getLevelName());
-        request.setLevelDesc(level.getLevelDesc());
-        request.setSalary(user.getSalary());
-
-        // 设置用户选择的选项 - 转换字符串为Option对象
-        request.setUserOptions(submitRequest.getSelectedOptions().stream()
-                .map(optionName -> {
-                    ResultReportRequest.Option optionDto = new ResultReportRequest.Option();
-                    optionDto.setOptionName(optionName);
-                    optionDto.setTrueAnswer(true); // 默认设置为true，实际应该根据正确答案判断
-                    return optionDto;
-                })
-                .toList());
-
-        // 设置正确选项
-        List<String> trueOptions = JsonUtils.fromJson(level.getOptions(), new TypeReference<List<LevelOption>>() {})
-                .stream()
-                .filter(LevelOption::getTrueAnswer)
-                .map(LevelOption::getOptionName)
-                .toList();
-        request.setTrueOptions(trueOptions);
-
-        return request;
-    }
-
+  
     /**
      * 保存用户答题记录
      */

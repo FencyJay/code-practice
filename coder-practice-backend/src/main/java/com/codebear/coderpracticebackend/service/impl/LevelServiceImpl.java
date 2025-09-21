@@ -56,12 +56,9 @@ public class LevelServiceImpl extends ServiceImpl<LevelMapper, Level> implements
         log.info("开始生成关卡，用户薪资: {}", salary);
 
         try {
-            // 构建AI生成请求
-            LevelGenerationRequest request = new LevelGenerationRequest();
-            request.setSalary(salary);
 
             // 调用AI服务生成关卡
-            LevelGenerationResponse response = levelGenerationService.generateLevel(request);
+            LevelGenerationResponse response = levelGenerationService.generateLevel(salary);
 
             // 转换为数据库实体
             Level level = new Level();

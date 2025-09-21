@@ -19,18 +19,5 @@ public class LevelGenerationResponse {
     /**
      * 关卡选项
      */
-    private List<Option> options;
-
-    @Data
-    public static class Option {
-        /**
-         * 选项名称
-         */
-        private String optionName;
-
-        /**
-         * 是否为正确答案
-         */
-        private Boolean trueAnswer;
-    }
+    private List<LevelOption> options;
 }
