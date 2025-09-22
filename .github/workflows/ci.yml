@@ -33,10 +33,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # 4️⃣ 编译项目（跳过测试）
+   # 4️⃣ 编译项目（跳过测试）
       - name: Build with Maven
         run: mvn clean install -DskipTests
+        working-directory: backend
+
 
       # 5️⃣ 运行单元测试
       - name: Run Tests
         run: mvn test
+        working-directory: backend
