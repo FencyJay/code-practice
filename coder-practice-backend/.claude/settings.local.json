@@ -17,7 +17,15 @@
       "Read(//c/Users/Administrator/.config/**)",
       "Read(//c/Users/Administrator/AppData/Roaming/Claude/**)",
       "Bash(npm install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(mkdir:*)",
+      "Bash(docker:*)",
+      "Bash(act:*)",
+      "Bash(winget install:*)",
+      "Bash(curl:*)",
+      "Bash(gh:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git config:*)"
     ],
     "deny": [],
     "ask": []
