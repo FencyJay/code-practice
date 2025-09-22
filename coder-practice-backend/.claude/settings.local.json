@@ -7,7 +7,17 @@
       "Bash(powershell:*)",
       "Bash(env:*)",
       "Bash(ccusage:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(claude mcp add:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(claude mcp:*)",
+      "Bash(git remote get-url:*)",
+      "Bash(npx mcp-remote:*)",
+      "Read(//c/Users/Administrator/.config/**)",
+      "Read(//c/Users/Administrator/AppData/Roaming/Claude/**)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,11 @@
+# LangChain4j 配置
+langchain4j:
+  community:
+    dashscope:
+      chat-model:
+        api-key: sk-c6810daace8041cebe15f125c6415ce6
+        model-name: qwen3-coder-plus
+        temperature: 0.7
+        max-tokens: 4096
+        log-requests: true
+        log-responses: true

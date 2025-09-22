@@ -1,6 +1,8 @@
 spring:
   application:
     name: coder-practice-backend
+  profiles:
+    active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/coder_practice?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
@@ -39,14 +41,5 @@ knife4j:
   setting:
     language: zh_cn
 
-# LangChain4j 配置
-langchain4j:
-  community:
-    dashscope:
-      chat-model:
-        api-key: sk-c6810daace8041cebe15f125c6415ce6
-        model-name: qwen-max
-        temperature: 0.7
-        max-tokens: 4096
-        log-requests: true
-        log-responses: true
+
+
