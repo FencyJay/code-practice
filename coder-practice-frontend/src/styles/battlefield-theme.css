@@ -1,0 +1,682 @@
+/* 复古史诗风格主题 - 战场叙事感 */
+:root {
+  /* 复古棕褐调色彩体系 */
+  --primary-brown: #8B4513;
+  --secondary-brown: #A0522D;
+  --light-brown: #D2691E;
+  --dark-brown: #654321;
+  --warm-beige: #F5DEB3;
+  --parchment: #FFEBCD;
+  --deep-brown: #3E2723;
+
+  /* 战场辅助色 */
+  --battle-gold: #DAA520;
+  --smoke-blue: #708090;
+  --blood-red: #8B0000;
+  --sword-silver: #C0C0C0;
+  --warning-orange: #FF8C00;
+  --success-green: #228B22;
+  --danger-red: #DC143C;
+
+  /* 背景色阶 */
+  --bg-primary: #FFF8DC;
+  --bg-secondary: #FAEBD7;
+  --bg-card: rgba(255, 248, 220, 0.9);
+  --bg-overlay: rgba(62, 39, 35, 0.8);
+  --bg-tertiary: #F5F5DC;
+
+  /* 文字颜色 */
+  --text-primary: #2C1810;
+  --text-secondary: #5D4E37;
+  --text-accent: #8B4513;
+  --text-gold: #DAA520;
+  --text-muted: #8B7355;
+
+  /* 边框和阴影 */
+  --border-primary: #8B4513;
+  --border-secondary: #A0522D;
+  --border-tertiary: #D2691E;
+  --shadow-light: rgba(139, 69, 19, 0.2);
+  --shadow-heavy: rgba(62, 39, 35, 0.4);
+  --shadow-gold: rgba(218, 165, 32, 0.3);
+}
+
+/* 背景纹理 */
+.battlefield-bg {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(218, 165, 32, 0.1) 0%, transparent 50%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%238B4513" stroke-width="0.5" opacity="0.1"/></svg>');
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* 复古边框效果 */
+.vintage-border {
+  border: 2px solid var(--border-primary);
+  border-radius: 0;
+  position: relative;
+  box-shadow:
+    inset 0 0 20px rgba(139, 69, 19, 0.1),
+    0 4px 8px var(--shadow-light);
+}
+
+.vintage-border::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 1px solid var(--border-secondary);
+  pointer-events: none;
+}
+
+/* 战场卡片效果 */
+.battle-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 16px var(--shadow-light),
+    inset 0 0 30px rgba(218, 165, 32, 0.05);
+  transition: all 0.3s ease;
+}
+
+.battle-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--battle-gold), var(--sword-silver), var(--battle-gold));
+  opacity: 0.6;
+}
+
+.battle-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 12px 24px var(--shadow-heavy),
+    inset 0 0 40px rgba(218, 165, 32, 0.1);
+  border-color: var(--battle-gold);
+}
+
+/* 古风按钮 */
+.battle-button {
+  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--secondary-brown) 100%);
+  color: white;
+  border: 2px solid var(--border-primary);
+  border-radius: 0;
+  padding: 12px 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 8px var(--shadow-light),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.battle-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.battle-button:hover::before {
+  left: 100%;
+}
+
+.battle-button:hover {
+  background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--light-brown) 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 12px var(--shadow-heavy),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* 城池导航栏 */
+.fortress-header {
+  background: var(--bg-card);
+  border-bottom: 4px solid var(--border-primary);
+  position: relative;
+  box-shadow: 0 4px 8px var(--shadow-light);
+}
+
+.fortress-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--battle-gold), var(--sword-silver), var(--battle-gold));
+}
+
+/* 古风标题 */
+.vintage-title {
+  font-family: 'Noto Serif SC', serif;
+  color: var(--text-primary);
+  text-shadow: 2px 2px 4px var(--shadow-light);
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+
+.vintage-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--battle-gold), transparent);
+}
+
+/* 战场标语 */
+.battle-motto {
+  font-family: 'Noto Serif SC', serif;
+  color: var(--text-accent);
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, transparent, rgba(139, 69, 19, 0.1), transparent);
+  border-left: 4px solid var(--battle-gold);
+  border-right: 4px solid var(--battle-gold);
+  margin: 20px 0;
+}
+
+/* 难度标签复古化 */
+.difficulty-vintage {
+  padding: 6px 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: var(--bg-card);
+  position: relative;
+}
+
+.difficulty-vintage::before {
+  content: '⚔';
+  margin-right: 4px;
+}
+
+.difficulty-vintage.easy {
+  color: var(--battle-gold);
+  border-color: var(--battle-gold);
+}
+
+.difficulty-vintage.medium {
+  color: var(--light-brown);
+  border-color: var(--light-brown);
+}
+
+.difficulty-vintage.hard {
+  color: var(--blood-red);
+  border-color: var(--blood-red);
+}
+
+/* 兵马阵列布局 */
+.battle-formation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+/* 滚动条复古化 */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-brown);
+  border: 1px solid var(--border-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-brown);
+}
+
+/* 确保没有横向滚动条 */
+html, body {
+  overflow-x: hidden;
+}
+
+/* 确保所有容器都不会超出视口宽度 */
+.battlefield-bg,
+.battlefield-container,
+.battle-banner,
+.battlefield-footer {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* 防止内容溢出 */
+.battle-card,
+.battle-record,
+.battle-button {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* 加载动画 - 列兵入场 */
+@keyframes soldiersMarch {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.soldier-enter {
+  animation: soldiersMarch 0.8s ease-out;
+}
+
+/* 旗帜挥舞效果 */
+@keyframes flagWave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+.flag-wave {
+  animation: flagWave 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* 字体和排版优化 */
+.battlefield-typography {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.battlefield-typography h1,
+.battlefield-typography h2,
+.battlefield-typography h3,
+.battlefield-typography h4,
+.battlefield-typography h5,
+.battlefield-typography h6 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.battlefield-typography h1 {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(139, 69, 19, 0.1);
+}
+
+.battlefield-typography h2 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.battlefield-typography h3 {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.08);
+}
+
+.battlefield-typography h4 {
+  font-size: 1.25rem;
+  letter-spacing: 0.3px;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.06);
+}
+
+.battlefield-typography p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.battlefield-typography .highlight {
+  color: var(--text-accent);
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(135deg, transparent, rgba(218, 165, 32, 0.1), transparent);
+}
+
+.battlefield-typography .motto {
+  font-style: italic;
+  color: var(--text-secondary);
+  border-left: 4px solid var(--battle-gold);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  background: rgba(218, 165, 32, 0.02);
+}
+
+.battlefield-typography .vintage-quote {
+  font-family: 'Noto Serif SC', serif;
+  font-style: italic;
+  color: var(--text-muted);
+  border-left: 3px solid var(--border-secondary);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.battlefield-typography .vintage-quote::before {
+  content: '"';
+  position: absolute;
+  left: -1.5rem;
+  top: -0.5rem;
+  font-size: 2rem;
+  color: var(--battle-gold);
+  opacity: 0.6;
+}
+
+.battlefield-typography .vintage-text {
+  font-family: 'Noto Serif SC', serif;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.battlefield-typography .military-term {
+  font-weight: 600;
+  color: var(--battle-gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.battlefield-typography .emphasis {
+  color: var(--text-accent);
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.1);
+}
+
+.battlefield-typography .subtitle {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+/* 古文装饰字符 */
+.vintage-decoration {
+  font-family: 'Noto Serif SC', serif;
+  color: var(--battle-gold);
+  font-size: 1.2rem;
+  margin: 0 0.5rem;
+}
+
+/* 章节分隔符 */
+.chapter-divider {
+  text-align: center;
+  margin: 3rem 0;
+  position: relative;
+}
+
+.chapter-divider::before {
+  content: '⚔️';
+  font-size: 2rem;
+  color: var(--battle-gold);
+  background: var(--bg-primary);
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.chapter-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-primary), transparent);
+  z-index: 0;
+}
+
+/* 高级战场效果 */
+.battlefield-glow {
+  box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
+  transition: all 0.3s ease;
+}
+
+.battlefield-glow:hover {
+  box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+}
+
+.battlefield-emboss {
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(139, 69, 19, 0.3),
+    0 4px 8px rgba(139, 69, 19, 0.2);
+}
+
+.battlefield-gradient {
+  background: linear-gradient(135deg,
+    var(--bg-primary) 0%,
+    var(--bg-secondary) 50%,
+    var(--bg-tertiary) 100%);
+}
+
+.battlefield-texture {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(139, 69, 19, 0.03) 10px,
+      rgba(139, 69, 19, 0.03) 20px
+    );
+}
+
+/* 战场状态样式 */
+.battlefield-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  border: 1px solid;
+  position: relative;
+}
+
+.battlefield-status.success {
+  background: var(--success-green);
+  color: white;
+  border-color: var(--success-green);
+}
+
+.battlefield-status.warning {
+  background: var(--warning-orange);
+  color: white;
+  border-color: var(--warning-orange);
+}
+
+.battlefield-status.danger {
+  background: var(--danger-red);
+  color: white;
+  border-color: var(--danger-red);
+}
+
+.battlefield-status.info {
+  background: var(--smoke-blue);
+  color: white;
+  border-color: var(--smoke-blue);
+}
+
+/* 战场徽章 */
+.battlefield-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  background: var(--battle-gold);
+  color: white;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(218, 165, 32, 0.3);
+}
+
+/* 战场分割线 */
+.battlefield-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--border-secondary) 20%,
+    var(--border-secondary) 80%,
+    transparent);
+  margin: 2rem 0;
+  position: relative;
+}
+
+.battlefield-divider::before {
+  content: '⚔️';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-primary);
+  padding: 0 1rem;
+  font-size: 1rem;
+  color: var(--battle-gold);
+}
+
+/* 战场工具提示 */
+.battlefield-tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.battlefield-tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-overlay);
+  color: var(--warm-beige);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.battlefield-tooltip:hover::before {
+  opacity: 1;
+}
+
+/* 战场加载动画 */
+@keyframes battlefield-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.battlefield-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-secondary);
+  border-top-color: var(--battle-gold);
+  border-radius: 50%;
+  animation: battlefield-loading 1s linear infinite;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .battle-formation {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .fortress-header {
+    padding: 16px;
+  }
+
+  .vintage-title {
+    font-size: 1.5rem;
+  }
+
+  .battlefield-typography h1 {
+    font-size: 2rem;
+  }
+
+  .battlefield-typography h2 {
+    font-size: 1.5rem;
+  }
+
+  .battlefield-typography h3 {
+    font-size: 1.2rem;
+  }
+
+  .battlefield-typography h4 {
+    font-size: 1.1rem;
+  }
+
+  .battlefield-status {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+  }
+
+  .battlefield-badge {
+    min-width: 20px;
+    height: 20px;
+    font-size: 0.65rem;
+  }
+
+  .battlefield-divider::before {
+    content: '⚔';
+  }
+}

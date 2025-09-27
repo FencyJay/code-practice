@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown + Mermaid 测试</title>
+
+    <!-- 引入 Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
+
+    <!-- 引入 Element Plus -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@2.3.12/dist/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/element-plus@2.3.12/dist/index.full.js"></script>
+
+    <!-- 引入 md-editor-v3 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/md-editor-v3@6.0.1/lib/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@6.0.1/lib/md-editor-v3.umd.js"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            margin: 0;
+            padding: 20px;
+            background: #FFF8DC;
+            color: #2C1810;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-section {
+            background: white;
+            border: 2px solid #8B4513;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #8B4513;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #D2691E;
+            padding-bottom: 10px;
+        }
+
+        .demo-content {
+            background: #FAEBD7;
+            border: 1px solid #D2691E;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .markdown-viewer {
+            background: white;
+            border: 1px solid #D2691E;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .status.success {
+            background: rgba(34, 139, 34, 0.1);
+            border: 1px solid #228B22;
+            color: #228B22;
+        }
+
+        .status.error {
+            background: rgba(220, 20, 60, 0.1);
+            border: 1px solid #DC143C;
+            color: #DC143C;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="header">
+                <h1>🎯 Markdown + Mermaid 渲染测试</h1>
+                <p>使用 md-editor-v3 实现的渲染方案</p>
+            </div>
+
+            <div class="content-section">
+                <h2>📝 测试内容</h2>
+                <div class="demo-content">
+                    <h3>示例 Markdown 内容（包含 Mermaid 图表）</h3>
+                    <pre style="background: #2C1810; color: #DAA520; padding: 15px; border-radius: 4px; overflow-x: auto;"># 算法流程图示例
+
+## 数组求和算法流程
+
+\`\`\`mermaid
+graph TD
+    A[开始] --> B[初始化sum为0]
+    B --> C{还有元素吗?}
+    C -->|是| D[将当前元素加到sum]
+    D --> C
+    C -->|否| E[返回sum]
+    E --> F[结束]
+\`\`\`
+
+## 复杂流程图
+
+\`\`\`mermaid
+flowchart TD
+    A[开始] --> B{用户登录?}
+    B -->|已登录| C[显示主页]
+    B -->|未登录| D[跳转登录页]
+    C --> E[用户操作]
+    D --> F[用户登录]
+    F --> B
+    E --> G[结束]
+\`\`\`
+
+**渲染结果：**</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📊 渲染结果</h2>
+                <div class="markdown-viewer">
+                    <md-preview
+                        :model-value="markdownContent"
+                        :theme="'light'"
+                        :preview-theme="'github'"
+                        :code-theme="'atom'"
+                        :mermaid="mermaidOptions"
+                    />
+                </div>
+                <div class="status" :class="renderStatus">
+                    {{ renderMessage }}
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 控制面板</h2>
+                <el-button type="primary" @click="testRender">测试渲染</el-button>
+                <el-button @click="loadSample1">加载示例 1</el-button>
+                <el-button @click="loadSample2">加载示例 2</el-button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        const app = createApp({
+            setup() {
+                const markdownContent = ref(`# 算法流程图示例
+
+## 数组求和算法流程
+
+\`\`\`mermaid
+graph TD
+    A[开始] --> B[初始化sum为0]
+    B --> C{还有元素吗?}
+    C -->|是| D[将当前元素加到sum]
+    D --> C
+    C -->|否| E[返回sum]
+    E --> F[结束]
+\`\`\`
+
+## 复杂流程图
+
+\`\`\`mermaid
+flowchart TD
+    A[开始] --> B{用户登录?}
+    B -->|已登录| C[显示主页]
+    B -->|未登录| D[跳转登录页]
+    C --> E[用户操作]
+    D --> F[用户登录]
+    F --> B
+    E --> G[结束]
+\`\`\`
+
+这个示例展示了如何使用 md-editor-v3 组件来渲染包含 **Markdown** 格式和 *Mermaid* 图表的内容。
+
+### 功能特点：
+
+1. **完整的 Markdown 支持**
+   - 标题、列表、粗体、斜体
+   - 代码块、表格、引用
+
+2. **内置 Mermaid 支持**
+   - 流程图 (graph/flowchart)
+   - 序列图 (sequenceDiagram)
+   - 类图 (classDiagram)
+   - 状态图 (stateDiagram)
+
+3. **主题定制**
+   - 支持多种预览主题
+   - 支持代码高亮主题
+   - 自定义 Mermaid 样式
+
+---
+
+**测试完成！** 🎉`);
+
+                const renderStatus = ref('success');
+                const renderMessage = ref('✅ Markdown + Mermaid 渲染成功！');
+
+                const mermaidOptions = ref({
+                    theme: 'default',
+                    themeVariables: {
+                        primaryColor: '#daa520',
+                        primaryTextColor: '#2c1810',
+                        primaryBorderColor: '#8b4513',
+                        lineColor: '#8b4513',
+                        secondaryColor: '#f5deb3',
+                        tertiaryColor: '#fff',
+                        clusterBkg: 'rgba(245, 222, 179, 0.2)',
+                        clusterBorder: '#8b4513',
+                        defaultLinkColor: '#8b4513',
+                        titleColor: '#2c1810',
+                        edgeLabelBackground: '#fff8dc',
+                        fontSize: '14px',
+                        fontFamily: 'Noto Serif SC, serif'
+                    },
+                    fontFamily: 'Noto Serif SC, serif'
+                });
+
+                const testRender = () => {
+                    renderStatus.value = 'success';
+                    renderMessage.value = '✅ 渲染测试完成！Mermaid 图表应该正常显示。';
+                };
+
+                const loadSample1 = () => {
+                    markdownContent.value = `# 系统架构图
+
+## 微服务架构
+
+\`\`\`mermaid
+graph TD
+    A[前端 UI - Vue3] --> B{API Gateway}
+    B --> C1[用户服务 - Spring Boot]
+    B --> C2[订单服务 - Spring Boot]
+    B --> C3[支付服务 - Spring Boot]
+    C1 --> D[(PostgreSQL)]
+    C2 --> E[(MongoDB)]
+    C3 --> F[(Redis)]
+    C1 -.->|消息通知| G[Kafka]
+    G --> H[数据分析模块]
+    H --> I[(Elasticsearch)]
+\`\`\`
+
+这是一个完整的微服务架构图。`;
+                    renderMessage.value = '✅ 已加载系统架构图示例';
+                };
+
+                const loadSample2 = () => {
+                    markdownContent.value = `# 用户登录序列图
+
+## 登录流程
+
+\`\`\`mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant Database
+
+    User->>Frontend: 输入用户名密码
+    Frontend->>Backend: POST /login
+    Backend->>Database: 验证用户
+    Database-->>Backend: 返回用户数据
+    Backend-->>Frontend: 返回 JWT Token
+    Frontend->>Frontend: 存储 Token
+    Frontend-->>User: 显示登录成功
+\`\`\`
+
+这个序列图展示了完整的用户登录流程。`;
+                    renderMessage.value = '✅ 已加载序列图示例';
+                };
+
+                return {
+                    markdownContent,
+                    mermaidOptions,
+                    renderStatus,
+                    renderMessage,
+                    testRender,
+                    loadSample1,
+                    loadSample2
+                };
+            }
+        });
+
+        app.use(ElementPlus);
+        app.mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid 文字渲染修复测试</title>
+
+    <!-- 引入 Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
+
+    <!-- 引入 Element Plus -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@2.3.12/dist/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/element-plus@2.3.12/dist/index.full.js"></script>
+
+    <!-- 引入 md-editor-v3 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/md-editor-v3@6.0.1/lib/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/md-editor-v3@6.0.1/lib/md-editor-v3.umd.js"></script>
+
+    <!-- 引入 Noto Serif SC 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            margin: 0;
+            padding: 20px;
+            background: #FFF8DC;
+            color: #2C1810;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .test-section {
+            background: white;
+            border: 2px solid #8B4513;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #8B4513;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #D2691E;
+            padding-bottom: 10px;
+        }
+
+        .markdown-viewer {
+            background: white;
+            border: 1px solid #D2691E;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .status.success {
+            background: rgba(34, 139, 34, 0.1);
+            border: 1px solid #228B22;
+            color: #228B22;
+        }
+
+        .status.error {
+            background: rgba(220, 20, 60, 0.1);
+            border: 1px solid #DC143C;
+            color: #DC143C;
+        }
+
+        /* 确保字体加载 */
+        .font-test {
+            font-family: 'Noto Serif SC', serif;
+            color: #2c1810;
+            font-size: 16px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f5deb3;
+            border: 1px solid #8b4513;
+            border-radius: 4px;
+        }
+
+        /* 修复后的 Mermaid 样式 */
+        :deep(.md-editor-preview .mermaid svg text) {
+            font-family: 'Noto Serif SC', serif !important;
+            fill: #2c1810 !important;
+            color: #2c1810 !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            text-anchor: middle !important;
+            dominant-baseline: middle !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .node rect),
+        :deep(.md-editor-preview .mermaid .node circle),
+        :deep(.md-editor-preview .mermaid .node ellipse),
+        :deep(.md-editor-preview .mermaid .node polygon),
+        :deep(.md-editor-preview .mermaid .node path) {
+            fill: #daa520 !important;
+            stroke: #8b4513 !important;
+            stroke-width: 2px !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .node text) {
+            fill: #2c1810 !important;
+            font-family: 'Noto Serif SC', serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-anchor: middle !important;
+            dominant-baseline: middle !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .edgeLabel) {
+            background-color: #fff8dc !important;
+            fill: #2c1810 !important;
+            color: #2c1810 !important;
+            font-family: 'Noto Serif SC', serif !important;
+            font-size: 12px !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .edgeLabel text) {
+            fill: #2c1810 !important;
+            color: #2c1810 !important;
+            font-family: 'Noto Serif SC', serif !important;
+            font-size: 12px !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .label text) {
+            fill: #2c1810 !important;
+            font-family: 'Noto Serif SC', serif !important;
+            font-size: 12px !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .cluster rect) {
+            fill: rgba(245, 222, 179, 0.2) !important;
+            stroke: #8b4513 !important;
+            stroke-width: 1px !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .cluster text) {
+            fill: #2c1810 !important;
+            font-family: 'Noto Serif SC', serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+        }
+
+        :deep(.md-editor-preview .mermaid .edgePath .path) {
+            stroke: #8b4513 !important;
+            stroke-width: 2px !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="header">
+                <h1>🎯 Mermaid 文字渲染修复测试</h1>
+                <p>修复后的节点文字显示测试</p>
+            </div>
+
+            <div class="font-test">
+                <strong>字体测试：</strong>这是 Noto Serif SC 字体的测试文字，如果显示正常，说明字体已正确加载。
+            </div>
+
+            <div class="test-section">
+                <h2>📊 流程图测试</h2>
+                <div class="markdown-viewer">
+                    <md-preview
+                        :model-value="flowchartContent"
+                        :theme="'light'"
+                        :preview-theme="'github'"
+                        :code-theme="'atom'"
+                        :mermaid="mermaidOptions"
+                    />
+                </div>
+                <div class="status success">
+                    ✅ 流程图节点文字应该正确显示
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>🔗 序列图测试</h2>
+                <div class="markdown-viewer">
+                    <md-preview
+                        :model-value="sequenceContent"
+                        :theme="'light'"
+                        :preview-theme="'github'"
+                        :code-theme="'atom'"
+                        :mermaid="mermaidOptions"
+                    />
+                </div>
+                <div class="status success">
+                    ✅ 序列图文字应该正确显示
+                </div>
+            </div>
+
+            <div class="test-section">
+                <h2>🏗️ 类图测试</h2>
+                <div class="markdown-viewer">
+                    <md-preview
+                        :model-value="classContent"
+                        :theme="'light'"
+                        :preview-theme="'github'"
+                        :code-theme="'atom'"
+                        :mermaid="mermaidOptions"
+                    />
+                </div>
+                <div class="status success">
+                    ✅ 类图文字应该正确显示
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        const app = createApp({
+            setup() {
+                const flowchartContent = ref(`# 流程图文字渲染测试
+
+## 简单流程图
+
+\`\`\`mermaid
+graph TD
+    A[开始节点] --> B[处理节点]
+    B --> C{判断节点}
+    C -->|是| D[执行节点]
+    C -->|否| E[结束节点]
+    D --> E
+\`\`\`
+
+## 复杂流程图
+
+\`\`\`mermaid
+flowchart TD
+    A[开始] --> B[初始化数据]
+    B --> C{数据验证}
+    C -->|验证通过| D[处理业务逻辑]
+    C -->|验证失败| E[返回错误]
+    D --> F[保存结果]
+    F --> G[结束]
+    E --> G
+\`\`\``);
+
+                const sequenceContent = ref(`# 序列图文字渲染测试
+
+## 用户登录流程
+
+\`\`\`mermaid
+sequenceDiagram
+    participant 用户
+    participant 前端
+    participant 后端
+    participant 数据库
+
+    用户->>前端: 输入用户名和密码
+    前端->>后端: 发送登录请求
+    后端->>数据库: 验证用户信息
+    数据库-->>后端: 返回用户数据
+    后端-->>前端: 返回认证令牌
+    前端-->>用户: 显示登录成功
+\`\`\``);
+
+                const classContent = ref(`# 类图文字渲染测试
+
+## 简单类图
+
+\`\`\`mermaid
+classDiagram
+    class 用户 {
+        +String 用户名
+        +String 密码
+        +String 邮箱
+        +登录()
+        +登出()
+    }
+
+    class 订单 {
+        +String 订单号
+        +Date 创建时间
+        +Float 金额
+        +创建订单()
+        +取消订单()
+    }
+
+    用户 "1" -- "*" 订单: 拥有
+\`\`\``);
+
+                const mermaidOptions = ref({
+                    theme: 'default',
+                    themeVariables: {
+                        primaryColor: '#daa520',
+                        primaryTextColor: '#2c1810',
+                        primaryBorderColor: '#8b4513',
+                        lineColor: '#8b4513',
+                        secondaryColor: '#f5deb3',
+                        tertiaryColor: '#fff',
+                        clusterBkg: 'rgba(245, 222, 179, 0.2)',
+                        clusterBorder: '#8b4513',
+                        defaultLinkColor: '#8b4513',
+                        titleColor: '#2c1810',
+                        edgeLabelBackground: '#fff8dc',
+                        fontSize: '16px',
+                        fontFamily: 'Noto Serif SC, serif',
+                        // 关键文字渲染配置
+                        mainBkg: '#daa520',
+                        secondBkg: '#f5deb3',
+                        lineColor: '#8b4513',
+                        textColor: '#2c1810',
+                        fontColor: '#2c1810',
+                        clusterTextColor: '#2c1810',
+                        actorTextColor: '#2c1810',
+                        actorBkg: '#daa520',
+                        actorBorder: '#8b4513',
+                        actorLineColor: '#8b4513',
+                        signalColor: '#8b4513',
+                        signalTextColor: '#2c1810',
+                        labelBoxBkgColor: '#fff8dc',
+                        labelBoxBorderColor: '#8b4513',
+                        loopTextColor: '#2c1810',
+                        noteTextColor: '#2c1810',
+                        noteBorderColor: '#8b4513',
+                        activationTextColor: '#2c1810',
+                        activationBkgColor: '#f5deb3',
+                        gridColor: 'rgba(139, 69, 19, 0.3)',
+                        sectionBkgColor: 'rgba(245, 222, 179, 0.1)',
+                        altSectionBkgColor: 'rgba(245, 222, 179, 0.1)',
+                        sectionTextColor: '#2c1810',
+                        message0TextColor: '#2c1810',
+                        message1TextColor: '#2c1810'
+                    },
+                    fontFamily: 'Noto Serif SC, serif',
+                    flowchart: {
+                        useMaxWidth: false,
+                        htmlLabels: true,
+                        curve: 'basis'
+                    },
+                    sequence: {
+                        diagramMarginX: 50,
+                        diagramMarginY: 10,
+                        actorMargin: 50,
+                        width: 150,
+                        height: 65,
+                        boxMargin: 10,
+                        boxTextMargin: 5,
+                        noteMargin: 10,
+                        messageMargin: 35,
+                        mirrorActors: true,
+                        bottomMarginAdj: 1,
+                        useMaxWidth: false,
+                        rightAngles: false,
+                        showSequenceNumbers: false
+                    },
+                    gantt: {
+                        useMaxWidth: false,
+                        fontSize: '16px',
+                        fontFamily: 'Noto Serif SC, serif'
+                    }
+                });
+
+                return {
+                    flowchartContent,
+                    sequenceContent,
+                    classContent,
+                    mermaidOptions
+                };
+            }
+        });
+
+        app.use(ElementPlus);
+        app.mount('#app');
+    </script>
+</body>
+</html>

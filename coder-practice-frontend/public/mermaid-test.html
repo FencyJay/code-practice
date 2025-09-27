@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.4/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <h1>Mermaid测试页面</h1>
+    <div class="mermaid">
+        graph TD
+            A[开始] --> B{条件判断}
+            B -->|是| C[处理1]
+            B -->|否| D[处理2]
+            C --> E[结束]
+            D --> E[结束]
+    </div>
+
+    <h2>流程图示例</h2>
+    <div class="mermaid">
+        flowchart TD
+            A[开始] --> B{是否登录}
+            B -->|已登录| C[显示主页]
+            B -->|未登录| D[跳转登录页]
+            C --> E[用户操作]
+            D --> F[用户登录]
+            F --> B
+            E --> G[结束]
+    </div>
+
+    <h2>序列图示例</h2>
+    <div class="mermaid">
+        sequenceDiagram
+            participant 用户
+            participant 前端
+            participant 后端
+            用户->>前端: 输入用户名密码
+            前端->>后端: 发送登录请求
+            后端-->>前端: 返回token
+            前端->>前端: 存储token
+            前端-->>用户: 显示登录成功
+    </div>
+
+    <script>
+        // 初始化Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#daa520',
+                primaryTextColor: '#2c1810',
+                primaryBorderColor: '#8b4513',
+                lineColor: '#8b4513',
+                secondaryColor: '#f5deb3',
+                tertiaryColor: '#fff',
+                clusterBkg: 'rgba(245, 222, 179, 0.2)',
+                clusterBorder: '#8b4513',
+                defaultLinkColor: '#8b4513',
+                titleColor: '#2c1810',
+                edgeLabelBackground: '#fff8dc',
+                fontSize: '14px',
+                fontFamily: 'Noto Serif SC, serif'
+            },
+            fontFamily: 'Noto Serif SC, serif'
+        });
+
+        console.log('Mermaid initialized');
+    </script>
+</body>
+</html>
