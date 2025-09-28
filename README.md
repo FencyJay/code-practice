@@ -28,8 +28,9 @@
 ```
 coder-practice
 ├── coder-practice-backend   # 后端 (Spring Boot)
+├   └── sql                   # 数据库建表语句
 ├── coder-practice-frontend  # 前端 (Vue 3 + Vite)
-└── sql                      # 数据库建表语句
+
 ```
 
 ## 🚀 快速开始
