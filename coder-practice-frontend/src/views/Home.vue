@@ -421,10 +421,16 @@ const totalPages = computed(() => {
 
 let animations = null
 
-onMounted(() => {
+onMounted(async () => {
 
-  userStore.fetchCurrentUser()
-  userInfo.value = userStore.userInfo
+  // 先尝试获取当前用户信息
+  try {
+    await userStore.fetchCurrentUser()
+    userInfo.value = userStore.userInfo
+  } catch (error) {
+    console.log('获取用户信息失败:', error)
+  }
+
   loadRecentLevels()
 
   // 注入动画样式
