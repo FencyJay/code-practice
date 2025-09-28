@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://qshuoxsmxbgn.ap-southeast-1.clawcloudrun.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
