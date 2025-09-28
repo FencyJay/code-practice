@@ -1,9 +1,7 @@
 ## CUSTOM ##
-CLAUDE.md
 .spec-workflow
-# Logs
-.claude
 
+# Logs
 logs
 *.log
 npm-debug.log*

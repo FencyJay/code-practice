@@ -1,7 +1,5 @@
 ### CUSTOM ###
-CLAUDE.md
-.claude
-暂存区修改
+
 application-local.yaml
 .spec-workflow
 application-prod.yaml

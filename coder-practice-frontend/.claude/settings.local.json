@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(dir:*)",
+      "Read(//d/planet_Project/coder-practice/coder-practice-backend/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
