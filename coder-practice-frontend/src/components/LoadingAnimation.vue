@@ -3,7 +3,7 @@
     <div class="loading-box">
       <!-- 左右移动的图标 -->
       <div class="moving-icon-container">
-        <img :src="iconPath" alt="加载中" class="moving-icon" />
+        <img :src="props.iconPath" alt="加载中" class="moving-icon" />
       </div>
 
       <!-- 加载进度条 -->
@@ -22,6 +22,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import loadingImg from '@/assets/img.png'
 
 const props = defineProps({
   text: {
@@ -30,7 +31,7 @@ const props = defineProps({
   },
   iconPath: {
     type: String,
-    default: '/src/assets/img.png'
+    default: loadingImg
   }
 })
 

@@ -5,8 +5,8 @@ import { useUserStore } from '@/store/user'
 // 创建axios实例
 const request = axios.create({
   // 开发环境和生产环境都使用完整URL
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 60000,
+   baseURL: import.meta.env.VITE_API_BASE_URL,
+
   withCredentials: true, // 跨域请求时携带 cookie
   headers: {
     'Content-Type': 'application/json',

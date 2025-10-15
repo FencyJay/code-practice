@@ -52,11 +52,11 @@ public class InterviewQuestionTool {
         }
 
         if (maxResults == null || maxResults <= 0) {
-            maxResults = 5;
+            maxResults = 2;
         }
 
-        if (maxResults > 10) {
-            maxResults = 10; // 限制最大返回数量
+        if (maxResults > 5) {
+            maxResults = 5; // 限制最大返回数量
         }
 
         try {

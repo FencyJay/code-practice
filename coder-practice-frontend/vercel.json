@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://qhvhnpfxutqh.us-west-1.clawcloudrun.com/api/$1"
+      "destination": "https://pzlxptnqjckj.us-east-1.clawcloudrun.com/api/$1"
     },
     {
       "source": "/(.*)",

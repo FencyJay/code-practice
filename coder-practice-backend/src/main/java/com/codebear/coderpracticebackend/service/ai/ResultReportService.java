@@ -22,7 +22,6 @@ public interface ResultReportService {
      *
      * @param levelName 关卡名称
      * @param levelDesc 关卡需求描述
-     * @param userOptions 用户选择的选项
      * @param trueOptions 正确选项
      * @param salary 用户当前薪资
      * @return 生成的结果报告
