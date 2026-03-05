@@ -3,8 +3,10 @@ package com.codebear.coderpracticebackend.service;
 import io.sentry.Sentry;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class SentryTest {
 
     @Test

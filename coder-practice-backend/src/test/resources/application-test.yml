@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:coder_practice;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    username: sa
+    password:
+
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: test-key
+      model-name: gpt-4o-mini
+      log-requests: false
+      log-responses: false
+
+sentry:
+  dsn: ""
