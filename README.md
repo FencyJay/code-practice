@@ -109,3 +109,25 @@ npm run dev
 
 - 后端：分层架构（Controller → Service → Mapper），统一异常处理，MyBatis Plus
 - 前端：Vue 3 + Pinia，组件单一职责，ESLint + Prettier 格式化
+
+## 🔁 CI（持续集成）说明
+
+本项目使用 GitHub Actions 做自动化检查，工作流文件位于：`\.github/workflows/ci.yml`。
+
+触发时机：
+
+- push 到 `master` 或 `work` 分支
+- 提交面向 `master` 或 `work` 的 Pull Request
+- 在 GitHub Actions 页面手动触发（workflow_dispatch）
+
+执行内容：
+
+- 后端：Java 21 环境下执行 `mvn -B test`
+- 前端：Node 20 环境下执行 `npm ci`、`npm run lint`、`npm run build`
+
+CI 的价值：
+
+- 提交后自动验证，降低“本地可跑、线上失败”的风险
+- PR 合并前提前发现问题，保障主分支稳定
+- 让团队协作更标准化，减少重复手工检查
+- CI 触发测试：仅修改文档并 push 到 `work` 分支，也会触发该工作流（当前未配置 paths 过滤）
